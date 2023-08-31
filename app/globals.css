@@ -2,155 +2,226 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
 
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
 
 .shortest-path {
-    border: 1px solid rgb(175, 216, 248);
-    background-color: rgb(255, 254, 106);
-    animation-name: triangletwo;
-    animation-duration: 1.5s;
-    animation-timing-function: linear;
-    animation-delay: 0;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
+  border: 1px solid rgb(175, 216, 248);
+  background-color: rgb(255, 254, 106);
+  animation-name: triangletwo;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 @keyframes triangletwo {
-    0% {
-        transform: scale(.6);
-        background-color: rgb(255, 254, 106);
-    }
+  0% {
+    transform: scale(.6);
+    background-color: rgb(255, 254, 106);
+  }
 
-    50% {
-        transform: scale(1.2);
-        background-color: rgb(255, 254, 106);
-    }
+  50% {
+    transform: scale(1.2);
+    background-color: rgb(255, 254, 106);
+  }
 
-    100% {
-        transform: scale(1.0);
-        background-color: rgb(255, 254, 106);
-    }
+  100% {
+    transform: scale(1.0);
+    background-color: rgb(255, 254, 106);
+  }
 }
 
 
 
 .shortest-path-unweighted {
-    background: url(../public/spaceshiptwo-up.svg);
-    background-color: rgb(255, 254, 106);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+  background: url(../public/spaceshiptwo-up.svg);
+  background-color: rgb(255, 254, 106);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .start {
-    background-image: url(../public/triangletwo-right.svg);
-    background-size: contain;
-    animation-name: specialNodes;
-    animation-duration: 2s;
-    animation-timing-function: ease-out;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
-    background-position: center center;
-    background-repeat: no-repeat;
+  background-image: url(../public/triangletwo-right.svg);
+  background-size: contain;
+  animation-name: specialNodes;
+  animation-duration: 2s;
+  animation-timing-function: ease-out;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .target {
-    background-image: url(../public/circle.svg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    animation-name: specialNodes;
-    animation-duration: 2.0s;
-    animation-timing-function: ease-out;
-    animation-delay: 0;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
+  background-image: url(../public/circle.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation-name: specialNodes;
+  animation-duration: 2.0s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 @keyframes specialNodes {
-    0% {
-        transform: scale(.3);
-        /* background-color: darkslategrey; */
-    }
+  0% {
+    transform: scale(.3);
+    /* background-color: darkslategrey; */
+  }
 
-    50% {
-        transform: scale(1.2);
-        /* background-color: darkslategrey; */
-    }
+  50% {
+    transform: scale(1.2);
+    /* background-color: darkslategrey; */
+  }
 
-    100% {
-        transform: scale(1.0);
-        /* background-color: darkslategrey; */
-    }
+  100% {
+    transform: scale(1.0);
+    /* background-color: darkslategrey; */
+  }
 }
 
 .visited {
-    border: 1px solid rgb(175, 216, 248);
-    animation-name: visitedAnimation;
-    animation-duration: 1.5s;
-    animation-timing-function: ease-out;
-    animation-delay: 0;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
+  border: 1px solid rgb(175, 216, 248);
+  animation-name: visitedAnimation;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 .wall {
-    border: 0;
-    animation-name: wallAnimation;
-    animation-duration: 0.3s;
-    animation-timing-function: ease-out;
-    animation-delay: 0;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
+  border: 0;
+  animation-name: wallAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 @keyframes wallAnimation {
-    0% {
-        transform: scale(.3);
-        background-color: rgb(12, 53, 71);
-    }
+  0% {
+    transform: scale(.3);
+    background-color: rgb(12, 53, 71);
+  }
 
-    50% {
-        transform: scale(1.2);
-        background-color: rgb(12, 53, 71);
-    }
+  50% {
+    transform: scale(1.2);
+    background-color: rgb(12, 53, 71);
+  }
 
-    100% {
-        transform: scale(1.0);
-        background-color: rgb(12, 53, 71);
-    }
+  100% {
+    transform: scale(1.0);
+    background-color: rgb(12, 53, 71);
+  }
 }
 
 @keyframes visitedAnimation {
-    0% {
-        transform: scale(.3);
-        background-color: rgba(0, 0, 66, 0.75);
-        border-radius: 100%;
-    }
+  0% {
+    transform: scale(.3);
+    background-color: rgba(0, 0, 66, 0.75);
+    border-radius: 100%;
+  }
 
 
-    50% {
-        background-color: rgba(17, 104, 217, 0.75);
-    }
+  50% {
+    background-color: rgba(17, 104, 217, 0.75);
+  }
 
-    75% {
-        transform: scale(1.2);
-        background-color: rgba(0, 217, 159, 0.75);
-    }
+  75% {
+    transform: scale(1.2);
+    background-color: rgba(0, 217, 159, 0.75);
+  }
 
-    100% {
-        transform: scale(1.0);
-        background-color: rgba(0, 190, 218, 0.75);
-    }
+  100% {
+    transform: scale(1.0);
+    background-color: rgba(0, 190, 218, 0.75);
+  }
 }

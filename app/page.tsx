@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Board from "./components/Board"
+import Board from "../components/Board"
 export default function Home() {
   return (
     <>

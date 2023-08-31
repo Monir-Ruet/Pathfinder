@@ -1,14 +1,25 @@
 "use client"
+import React, { useEffect, useRef, useState } from "react"
+import bfs from "../app/lib/Bfs";
+import dfs from "../app/lib/Dfs";
+import getRecursiveMaze from "../app/lib/RecursiveMaze";
+import RandomMaze from "../app/lib/RandomMaze";
 
-import React, { useCallback, useEffect, useRef, useState } from "react"
-import bfs from "../lib/Bfs";
-import dfs from "../lib/Dfs";
-import getRecursiveMaze from "../lib/RecursiveMaze";
-import RandomMaze from "../lib/RandomMaze";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+
 
 export default function Board() {
     const [w, setw] = useState(80);
-    const [h, seth] = useState(26);
+    const [h, seth] = useState(28);
     const f = useRef(false);
     const setTermPoint = useRef(new Array(2).fill([-1, -1]));
 
@@ -190,7 +201,7 @@ export default function Board() {
             [h - 1, 0, h - 1, w - 1],
         ]
         if (type == 0)
-            ret.push(...getRecursiveMaze(2, 2, h - 3, w - 3, 'horizontal'))
+            ret.push(...getRecursiveMaze(2, 2, h - 3, w - 3, 'vertical'))
         else if (type == 1)
             ret.push(...getRecursiveMaze(2, 2, h - 3, w - 3, 'horizontal'))
         else if (type == 2)
@@ -215,22 +226,102 @@ export default function Board() {
     }
     return (
         <div className="flex flex-col justify-between items-stretch h-fit min-h-screen">
-            <div className="flex justify-between">
-                <div>
-                    <button onClick={() => run(0)} className="p-2 border-2">BFS</button>
-                    <button onClick={() => run(1)} className="p-2 border-2">DFS</button>
-                    <button onClick={() => createMaze(2)} className="p-2 border-2">Maze</button>
-                    <button onClick={() => clear(true)} className="p-2 border-2">Clear</button>
-                </div>
+            <div className="justify-between">
+                <div className="flex md:hidden border-b-black/40 border-b-2 p-4 w-full">
+                    <svg onClick={() => {
 
-                <div className="flex justify-end">
-                    <input className="p-2 border-2 w-10" type="text" ref={(t) => setTermPoint.current[0] = t} placeholder="X" />
-                    <input className="p-2 border-2 w-10" type="text" ref={(t) => setTermPoint.current[1] = t} placeholder="Y" />
-                    <button onClick={() => addTerminal()} className="p-2 border-2">Terminal</button>
-
+                    }} width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 md:hidden"><path d="M8 2H13.5C13.7761 2 14 2.22386 14 2.5V12.5C14 12.7761 13.7761 13 13.5 13H8V2ZM7 2H1.5C1.22386 2 1 2.22386 1 2.5V12.5C1 12.7761 1.22386 13 1.5 13H7V2ZM0 2.5C0 1.67157 0.671573 1 1.5 1H13.5C14.3284 1 15 1.67157 15 2.5V12.5C15 13.3284 14.3284 14 13.5 14H1.5C0.671573 14 0 13.3284 0 12.5V2.5Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
+                    <a className="md:hidden ml-6 flex items-center space-x-2" href="/">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-6 w-6"><rect width="256" height="256" fill="none"></rect><line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line><line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line></svg>
+                        <span className="md:hidden font-bold sm:inline-block">Path Finder</span>
+                    </a>
                 </div>
+                <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-40 border-b bg-background/95 backdrop-blur flex-col md:flex md:flex-row md:w-full">
+                    <div className="md:container mx-auto flex h-14 items-center">
+                        <div className="mr-4 hidden md:flex">
+                            <a className="mr-6 flex items-center space-x-2" href="/">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-6 w-6"><rect width="256" height="256" fill="none"></rect><line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line><line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line></svg>
+                                <span className="hidden font-bold sm:inline-block">Path Finder</span>
+                            </a>
+                        </div>
+                        <div className="flex justify-center items-center">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <div>
+                                        <div className='rounded flex flex-row justify-center items-center hover:bg-slate-200 dark:hover:bg-zinc-800 p-2'>
+                                            <span className='p-2'>Algorithms</span>
+                                        </div>
+                                    </div>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel>Select an Algorithm</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <button onClick={() => run(0)} className="p-1">BFS</button>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+
+                                        <button onClick={() => run(1)} className="p-1">DFS</button>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <div>
+                                        <div className='rounded flex flex-row justify-center items-center hover:bg-slate-200 dark:hover:bg-zinc-800 p-2'>
+                                            <span className='p-2'>Maze</span>
+                                        </div>
+                                    </div>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel>Select a Maze</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <button onClick={() => createMaze(0)} className="w-full text-left">Vertical Skew</button>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <button onClick={() => createMaze(1)} className="w-full text-left">Horizontal Skew</button>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <button onClick={() => createMaze(2)} className="w-full text-left">Random Maze</button>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <Button onClick={() => clear(true)} className="m-2">Clear</Button>
+                        </div>
+
+                    </div>
+                    <div className="flex">
+                        <Input ref={(t) => setTermPoint.current[0] = t} placeholder="X" className="m-2 w-12" />
+                        <Input ref={(t) => setTermPoint.current[1] = t} placeholder="Y" className="m-2 w-12" />
+                        <Button onClick={() => addTerminal()} className="m-2">Target</Button>
+                    </div>
+                </header >
             </div>
 
+            <div className="flex justify-center mt-5 mb-5 ml-2 mr-2">
+                <div className="flex items-center">
+                    <div className="start  border-0 w-[25px] h-[25px] bg-whtie text-center font-light"></div>
+                    <div className="ml-2 mr-2">Start Node</div>
+                </div>
+                <div className="flex items-center">
+                    <div className="start border-0 w-[25px] h-[25px] bg-whtie text-center font-light target"></div>
+                    <div className="ml-2 mr-2">Target Node</div>
+                </div>
+                <div className="flex items-center">
+                    <div className="border-[1px] border-[#afd8f8] w-[25px] h-[25px] bg-whtie text-center font-light"></div>
+                    <div className="ml-2 mr-2">Unvisited Node</div>
+                </div>
+                <div className="flex items-center">
+                    <div className="visited border-0 w-[25px] h-[25px] bg-whtie text-center font-light"></div>
+                    <div className="ml-2 mr-2">Visited Node</div>
+                </div>
+                <div className="flex items-center">
+                    <div className="border-0 w-[25px] h-[25px] bg-whtie text-center font-light wall"></div>
+                    <div className="ml-2 mr-2">Wall Node</div>
+                </div>
+            </div>
             <div className="mb-5">
                 <table className="m-2">
                     <tbody>

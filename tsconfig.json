@@ -33,7 +33,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/lib/queue.js"
+    "app/lib/queue.js",
+    "app/lib/RecursiveMaze.js"
   ],
   "exclude": [
     "node_modules"
