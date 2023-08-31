@@ -1,14 +1,14 @@
 import queue from "./queue";
 
 function ok(i: number, j: number, h: number, w: number): boolean {
-    return i >= 0 && i < h && j > 0 && j < w;
+    return i >= 0 && i < h && j >= 0 && j < w;
 }
 
 interface point {
     x: number,
     y: number
 }
-export default function bfs(s: point, t: point, w: number, h: number) {
+export default function bfs(s: point, t: point, w: number, h: number, walls: Boolean[][]) {
     let arr = []
     let dx = [-1, 0, 1, 0]
     let dy = [0, 1, 0, -1]
@@ -17,6 +17,14 @@ export default function bfs(s: point, t: point, w: number, h: number) {
         visited[i] = new Array(w).fill(false);
         parent[i] = new Array(w).fill([-1, -1]);
     }
+    for (let i = 0; i < h; i++) {
+        for (let j = 0; j < w; j++) {
+            visited[i][j] = walls[i][j];
+        }
+    }
+    // for (let i = 0; i < walls.length; i++) {
+    //     if () visited[walls[i][0]][walls[i][1]] = true;
+    // }
     let q = new queue();
     q.push(s);
     visited[s.x][s.y] = 1;
