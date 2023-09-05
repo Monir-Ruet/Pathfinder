@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button"
 
 
 export default function Board() {
-    const [w, setw] = useState(80);
+    const [w, setw] = useState(0);
     const [h, seth] = useState(28);
     const f = useRef(false);
     const setTermPoint = useRef(new Array(2).fill([-1, -1]));
@@ -44,6 +44,14 @@ export default function Board() {
     for (let i = 0; i < h; i++) {
         walls[i] = new Array(w).fill(false);
     }
+
+    function whInit() {
+        setw(Math.floor(window.innerWidth / 25))
+        setcenter({
+            x: Math.floor(h / 2),
+            y: Math.max(Math.floor(window.innerWidth / 50) - 10, 0)
+        });
+    }
     useEffect(() => {
         start.current = { x: 0, y: 0 };
         terminate.current = { x: h - 1, y: w - 1 };
@@ -54,16 +62,12 @@ export default function Board() {
         }
         clear(true);
     }, [w]);
-
     useEffect(() => {
         clear(true);
+        whInit();
         function handleResize() {
             if (!running.current) {
-                setw(Math.floor(window.innerWidth / 25))
-                setcenter({
-                    x: Math.floor(h / 2),
-                    y: Math.max(Math.floor(window.innerWidth / 50) - 10, 0)
-                });
+                whInit();
             }
         }
         window.addEventListener('resize', handleResize);
@@ -162,8 +166,10 @@ export default function Board() {
             let MinY = Math.max(center.y, 0), MaxY = Math.min(center.y + x, w - 1);
             terminate.current = { ...center, y: MaxY }
             start.current = { ...center, y: MinY };
-            rectangles.current[start.current.x][start.current.y].classList.add('start');
-            rectangles.current[terminate.current.x][terminate.current.y].classList.add('target');
+            if (rectangles.current[start.current.x][start.current.y])
+                rectangles.current[start.current.x][start.current.y].classList.add('start');
+            if (rectangles.current[terminate.current.x][terminate.current.y])
+                rectangles.current[terminate.current.x][terminate.current.y].classList.add('target');
         }
     }
 
@@ -225,8 +231,8 @@ export default function Board() {
         running.current = false;
     }
     return (
-        <div className="flex flex-col justify-between items-stretch h-fit min-h-screen">
-            <div className="justify-between">
+        <div className="flex flex-col items-stretch h-fit min-h-screen">
+            <div className="justify-between ">
                 <div className="flex md:hidden border-b-black/40 border-b-2 p-4 w-full">
                     <svg onClick={() => {
 
@@ -300,9 +306,9 @@ export default function Board() {
                 </header >
             </div>
 
-            <div className="flex justify-center mt-5 mb-5 ml-2 mr-2">
+            <div className="flex md:justify-center mt-20 mb-20 flex-wrap gap-5">
                 <div className="flex items-center">
-                    <div className="start  border-0 w-[25px] h-[25px] bg-whtie text-center font-light"></div>
+                    <div className="start border-0 w-[25px] h-[25px] bg-whtie text-center font-light"></div>
                     <div className="ml-2 mr-2">Start Node</div>
                 </div>
                 <div className="flex items-center">
